@@ -1,0 +1,60 @@
+<html>
+   <head>
+      <title>User Information</title>
+      <link rel="stylesheet" href="./public/css/style.css">
+   </head>
+   <body>
+       <div class="title">
+        Add User
+       </div>
+       <div class="panel">
+           <input type="button" value="Back" onclick="gotoBack()" class="left"/>
+           <input type="button" value="Save" onclick="save()" class="right"/>
+       </div>
+       <form>
+            <fieldset align="center">
+                <legend>User Information:</legend>
+                <div>Name: <input type="text" id="name"></div>
+                <div>Email: <input type="text" id="email"></div>
+            </fieldset>
+       </form>
+   </body>
+</html>
+
+<script>
+    //alert(localStorage.getItem("selectedUserID"));
+    function getUser(){
+        var _id = localStorage.getItem("selectedUserID");
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                var user = JSON.parse(this.responseText);
+                document.getElementById("name").value = user.name;
+                document.getElementById("email").value = user.email;
+            }
+        };
+        xhttp.open("GET", "get_user/"+_id, true);
+        xhttp.send();
+    }
+    function save(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                location.href = "/";
+            }
+        };
+        xhttp.open("PUT", "update_user", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var _id = localStorage.getItem("selectedUserID");
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        xhttp.send("_id="+_id+"&name="+name+"&email="+email);
+    }
+    function gotoBack(){
+        location.href = "/";
+    }
+
+    getUser();
+</script>

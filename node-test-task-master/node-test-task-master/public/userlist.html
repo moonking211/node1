@@ -1,0 +1,55 @@
+<html>
+   <head>
+      <title>User List</title>
+      <link rel="stylesheet" href="./public/css/style.css">
+   </head>
+   <body>
+       <div class="title">
+        Users
+       </div>
+       <div class="panel">
+           <input type="button" value="Add New" onclick="gotoAddUser()" class="right"/>
+       </div>
+       <ul id="userlist">
+       </ul>
+   </body>
+</html>
+
+<script>
+    function gotoAddUser(){
+        location.href = "/addUserPage";
+    }
+    function gotoUpdateUser(_id){
+        localStorage.setItem("selectedUserID",_id);
+        location.href = "/updateUserPage";
+    }
+    function removeUser(_id){
+        if(confirm("Are you sure?")){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    location.href = "/";
+                }
+            };
+            xhttp.open("DELETE", "del_user/"+_id, true);
+            xhttp.send();
+        }
+    }
+    function getUserList(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var res = JSON.parse(this.responseText);
+                console.log(res);
+                var html = "";
+                for(var i=0;i<res.length;i++){
+                    html += "<li onclick='gotoUpdateUser(\""+res[i]._id+"\")'><span>"+res[i].name+"</span><input type='button' value='Delete' onclick='removeUser(\""+res[i]._id+"\")'/>"+"</li>";
+                }
+                document.getElementById("userlist").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "list_user", true);
+        xhttp.send();
+    }
+    getUserList();
+</script>

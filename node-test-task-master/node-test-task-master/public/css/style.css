@@ -1,0 +1,39 @@
+.title{
+    text-align: center;
+    font: 18px bold;
+}
+.panel{
+    height: 41px;
+    border: 1px solid black;
+}
+input[type=button]{
+    margin: 10px;
+}
+.right{
+    float: right;
+}
+.left{
+    float: left;
+}
+form{
+    margin: 20px;
+}
+form div{
+    margin: 10px;
+}
+#userlist li{
+    list-style: none;
+    height: 20px;
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 10px 10px 10px 10px;
+    margin: 10px;
+}
+#userlist li span{
+    width: 90%;
+    float: left;
+}
+#userlist li input{
+    float: right;
+    margin: 0;
+}
